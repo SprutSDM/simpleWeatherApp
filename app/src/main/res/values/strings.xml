@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="header_today">Today, now</string>
+    <string name="header_next_days">Two-week forecast</string>
 </resources>

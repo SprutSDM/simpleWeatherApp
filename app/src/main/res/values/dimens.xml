@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_text_size">16sp</dimen>
+    <dimen name="header_text_size">18sp</dimen>
+    <dimen name="today_temp_text_size">64sp</dimen>
+    <dimen name="today_additional_text_size">@dimen/common_text_size</dimen>
+    <dimen name="forecast_date_text_size">@dimen/common_text_size</dimen>
+    <dimen name="forecast_temp_day_text_size">@dimen/common_text_size</dimen>
+    <dimen name="forecast_temp_night_text_size">@dimen/common_text_size</dimen>
+</resources>
