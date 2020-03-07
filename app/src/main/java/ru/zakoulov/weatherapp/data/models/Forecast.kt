@@ -2,15 +2,14 @@ package ru.zakoulov.weatherapp.data.models
 
 data class DailyForecast(
     val date: Long,
-    val dailyForecast: List<ForecastInfo>
+    val dailyForecasts: List<ForecastInfo>
 )
 
 data class ForecastInfo(
     val date: Long,
     val minTemp: TempInfo,
     val maxTemp: TempInfo,
-    val dayPreviewType: PreviewType,
-    val nightPreviewType: PreviewType
+    val dayPreviewType: PreviewType
 )
 
 data class HourlyForecast(
@@ -35,8 +34,11 @@ enum class TempUnit(val alias: String) {
 
 enum class PreviewType {
     SUN,
+    MOON,
     CLOUD,
     SUN_CLOUD,
+    MOON_CLOUD,
     RAIN,
+    SHOW,
     THUNDER_STORM,
 }

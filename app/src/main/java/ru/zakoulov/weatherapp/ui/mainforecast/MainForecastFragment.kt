@@ -1,14 +1,17 @@
 package ru.zakoulov.weatherapp.ui.mainforecast
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.zakoulov.weatherapp.App
 import ru.zakoulov.weatherapp.R
 import ru.zakoulov.weatherapp.data.models.HourlyForecast
 import ru.zakoulov.weatherapp.utils.formatTemp
@@ -55,5 +58,11 @@ class MainForecastFragment : Fragment() {
         todayHumidity.text = forecast.humidity.toString()
         todayPrecipitation.text = forecast.precipitation.toString()
         // todayForecastPreview.src = ...
+    }
+
+    companion object {
+        const val TAG = "MainForecastFragment"
+
+        val INSTANCE: MainForecastFragment by lazy { MainForecastFragment() }
     }
 }
