@@ -15,5 +15,7 @@ interface AwForecastApi {
     ): Response<List<AwHourlyForecastResponse>>
 
     @GET("daily/5day/{cityId}")
-    suspend fun getFiveDayForecast(@Path("cityId") cityId: Int): Response<AwDailyForecastResponse>
+    suspend fun getFiveDayForecast(@Path("cityId") cityId: Int,
+                                   @Query("metric") metric: Boolean = true
+    ): Response<AwDailyForecastResponse>
 }

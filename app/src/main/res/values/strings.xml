@@ -3,7 +3,12 @@
     <string name="header_today">Today, now</string>
     <string name="header_next_days">Two-week forecast</string>
     <string name="predefine_city_name">Saint Petersburg</string>
-    <string name="error_common_title">При получении данных произошла ошибка</string>
-    <string name="error_common_description">Проверьте подключение к сети и попробуйте еще раз</string>
-    <string name="reload_but">Обновить</string>
+    <string name="error_common_title">An error occurred while getting data</string>
+    <string name="error_common_description">Check your network connection and try again</string>
+    <string name="real_feel_temp_html"><![CDATA[Real feel: <font color=#828282>%1$s</font>]]></string>
+    <string name="humidity_html"><![CDATA[Humidity: <font color=#828282>%1$s</font>]]></string>
+    <string name="precipitation_html"><![CDATA[Precipitation: <font color=#828282>%1$s</font>]]></string>
+    <string name="reload_but">Retry</string>
+    <string name="sdf_date">d MMM</string>
+    <string name="error_while_getting_data">Error while getting data</string>
 </resources>

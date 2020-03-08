@@ -1,5 +1,6 @@
 package ru.zakoulov.weatherapp.data
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred

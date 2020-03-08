@@ -5,6 +5,7 @@
 
     <!-- content body -->
     <LinearLayout
+        android:id="@+id/forecast_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -25,13 +26,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            android:paddingStart="8dp"
             android:orientation="horizontal">
 
             <!-- Forecast description -->
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <TextView
                     android:id="@+id/today_temp"
                     android:layout_width="wrap_content"
@@ -42,7 +45,6 @@
                     android:id="@+id/today_temp_feel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:textColor="@color/color_text"
                     android:textSize="@dimen/today_additional_text_size"/>
                 <TextView
@@ -65,12 +67,14 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_gravity="center">
                 <ImageView
                     android:id="@+id/today_forecast_preview"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:tint="@color/color_forecast_preview" />
             </FrameLayout>
 
         </LinearLayout>
@@ -88,6 +92,8 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:clipToPadding="false"
             android:layout_marginTop="4dp"/>
 
     </LinearLayout>

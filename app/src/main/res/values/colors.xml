@@ -6,4 +6,5 @@
 
     <color name="color_text">#4F4F4F</color>
     <color name="color_text_light">#828282</color>
+    <color name="color_forecast_preview">#4F4F4F</color>
 </resources>

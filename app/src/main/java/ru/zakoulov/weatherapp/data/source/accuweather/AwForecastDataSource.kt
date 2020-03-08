@@ -20,7 +20,7 @@ class AwForecastDataSource(
         return if (response.isSuccessful) {
             DataResult.Success(hourlyForecastMapper.map(response.body()!!)[0])
         } else {
-            DataResult.Fail(Exception(response.errorBody().toString()))
+            DataResult.Fail(Exception(response.message()))
         }
     }
 
@@ -29,7 +29,7 @@ class AwForecastDataSource(
         return if (response.isSuccessful) {
             DataResult.Success(fiveDayForecastMapper.map(response.body()!!))
         } else {
-            DataResult.Fail(Exception(response.errorBody().toString()))
+            DataResult.Fail(Exception(response.message()))
         }
     }
 }

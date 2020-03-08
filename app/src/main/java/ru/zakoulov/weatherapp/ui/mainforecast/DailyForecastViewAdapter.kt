@@ -1,5 +1,6 @@
 package ru.zakoulov.weatherapp.ui.mainforecast
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,12 @@ import ru.zakoulov.weatherapp.data.models.ForecastInfo
 import ru.zakoulov.weatherapp.data.models.PreviewType
 import ru.zakoulov.weatherapp.data.models.TempInfo
 import ru.zakoulov.weatherapp.utils.formatTemp
+import java.text.SimpleDateFormat
 
 class DailyForecastViewAdapter(
-    forecastList: List<ForecastInfo>
+    forecastList: List<ForecastInfo>,
+    private val callbacks: ForecastAdapterCallback,
+    private val sdfDate: SimpleDateFormat
 ) : RecyclerView.Adapter<DailyForecastViewAdapter.ForecastViewHolder>() {
 
     var forecastList: List<ForecastInfo> = forecastList
@@ -33,20 +37,20 @@ class DailyForecastViewAdapter(
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val forecast = forecastList[position]
         holder.apply {
-            setDate(forecast.date)
+            setDate(sdfDate.format(forecast.date * 1000))
             setTemp(forecast.minTemp, forecast.maxTemp)
-
+            setPreview(callbacks.getDrawable(forecast.dayPreviewType.previewSmall))
         }
     }
 
-    class ForecastViewHolder(val forecast: View) : RecyclerView.ViewHolder(forecast) {
+    class ForecastViewHolder(forecast: View) : RecyclerView.ViewHolder(forecast) {
         private val date: TextView = forecast.findViewById(R.id.forecast_date)
         private val tempDay: TextView = forecast.findViewById(R.id.forecast_temp_day)
         private val tempNight: TextView = forecast.findViewById(R.id.forecast_temp_night)
         private val preview: ImageView = forecast.findViewById(R.id.forecast_preview)
 
-        fun setDate(date: Long) {
-            // TODO add formatting
+        fun setDate(date: String) {
+            this.date.text = date
         }
 
         fun setTemp(min: TempInfo, max: TempInfo) {
@@ -54,8 +58,8 @@ class DailyForecastViewAdapter(
             tempNight.text = formatTemp(max.temp, max.unit.alias)
         }
 
-        fun setPreview(previewType: PreviewType) {
-            // TODO need drawables
+        fun setPreview(drawable: Drawable?) {
+            preview.setImageDrawable(drawable)
         }
     }
 }
