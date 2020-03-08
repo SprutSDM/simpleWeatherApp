@@ -1,17 +1,12 @@
 package ru.zakoulov.weatherapp.data
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import ru.zakoulov.weatherapp.BuildConfig
 import ru.zakoulov.weatherapp.data.core.DataResult
 import ru.zakoulov.weatherapp.data.models.City
-import ru.zakoulov.weatherapp.data.models.DailyForecast
 import ru.zakoulov.weatherapp.data.models.Forecast
-import ru.zakoulov.weatherapp.data.models.HourlyForecast
 import ru.zakoulov.weatherapp.data.source.ForecastDataSource
 import java.lang.Exception
 
@@ -21,18 +16,22 @@ class ForecastRepository(
     private val predefineCity: City
 ) {
 
-    var currentCityId = MutableLiveData(predefineCity)
+    var currentCity = MutableLiveData(predefineCity)
     val forecast = MutableLiveData<DataResult<Forecast>>()
+    val cities = MutableLiveData<DataResult<List<City>>>(DataResult.Success(emptyList()))
 
     private fun getHourlyForecast() = coroutineScope.async {
-        remoteDataSource.getHourlyForecast(currentCityId.value!!.id)
+        remoteDataSource.getHourlyForecast(currentCity.value!!.id)
     }
 
     private fun getFiveDayForecast() = coroutineScope.async {
-        remoteDataSource.getFiveDayForecast(currentCityId.value!!.id)
+        remoteDataSource.getFiveDayForecast(currentCity.value!!.id)
     }
 
     fun updateForecast() {
+        if (forecast.value?.isLoading() == true) {
+            return
+        }
         forecast.value = DataResult.Loading()
 
         coroutineScope.launch {
@@ -57,5 +56,25 @@ class ForecastRepository(
                     DataResult.Fail(Exception("Unknown error"))
                 })
         }
+    }
+
+    fun searchCities(query: String) {
+        if (cities.value?.isLoading() == true) {
+            return
+        }
+        cities.value = DataResult.Loading()
+
+        coroutineScope.launch {
+            // TODO
+        }
+    }
+
+    fun resetCities() {
+        cities.value = DataResult.Success(emptyList())
+    }
+
+    fun changeCity(city: City) {
+        currentCity.value = city
+        updateForecast()
     }
 }
