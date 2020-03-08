@@ -10,10 +10,12 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.zakoulov.weatherapp.data.ForecastRepository
+import ru.zakoulov.weatherapp.data.models.City
 import ru.zakoulov.weatherapp.data.source.ForecastDataSource
 import ru.zakoulov.weatherapp.data.source.accuweather.AwForecastDataSource
 import ru.zakoulov.weatherapp.data.source.accuweather.api.AwForecastApi
 import ru.zakoulov.weatherapp.data.source.accuweather.mappers.AwFiveDayForecastMapper
+import ru.zakoulov.weatherapp.data.source.accuweather.mappers.AwHourlyForecastMapper
 
 class App : Application() {
 
@@ -29,9 +31,19 @@ class App : Application() {
         val scope = CoroutineScope(coroutineContext)
 
         val awApi = getAccuweatherApi()
-        val awForecastDataSource: ForecastDataSource = AwForecastDataSource(awApi, AwFiveDayForecastMapper())
+        val awForecastDataSource: ForecastDataSource = AwForecastDataSource(
+            api = awApi,
+            hourlyForecastMapper = AwHourlyForecastMapper(),
+            fiveDayForecastMapper = AwFiveDayForecastMapper()
+        )
 
-        forecastRepository = ForecastRepository(awForecastDataSource, scope)
+        // Resources allows to predefine city for each localized region
+        val predefineCity = City(
+            id = resources.getInteger(R.integer.predefine_city_id),
+            name = getString(R.string.predefine_city_name)
+        )
+
+        forecastRepository = ForecastRepository(awForecastDataSource, scope, predefineCity)
     }
 
     private fun getAccuweatherApi(): AwForecastApi {

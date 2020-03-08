@@ -10,7 +10,7 @@ data class AwDailyForecastResponse(
     @SerializedName("DailyForecasts") val forecasts: List<AwForecast>
 )
 
-data class AwHourlyForecaseResposne(
+data class AwHourlyForecastResponse(
     @SerializedName("EpochDateTime") val date: Long,
     @SerializedName("WeatherIcon") val icon: Int,
     @SerializedName("Temperature") val temp: AwTemperature,
