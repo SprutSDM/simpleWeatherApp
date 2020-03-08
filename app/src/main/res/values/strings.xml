@@ -11,4 +11,5 @@
     <string name="reload_but">Retry</string>
     <string name="sdf_date">d MMM</string>
     <string name="error_while_getting_data">Error while getting data</string>
+    <string name="choose_city_title">Choose city</string>
 </resources>
