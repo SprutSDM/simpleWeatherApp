@@ -1,5 +1,10 @@
 package ru.zakoulov.weatherapp.data.models
 
+data class Forecast(
+    val hourlyForecast: HourlyForecast,
+    val dailyForecasts: DailyForecast
+)
+
 data class DailyForecast(
     val date: Long,
     val dailyForecasts: List<ForecastInfo>

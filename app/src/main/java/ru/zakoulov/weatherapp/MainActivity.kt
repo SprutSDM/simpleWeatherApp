@@ -12,7 +12,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             navigateToMainForecast()
+            return
         }
+        App.getApp(this).forecastRepository.updateForecast()
     }
 
     fun navigateToMainForecast() = navigateTo(MainForecastFragment.INSTANCE, MainForecastFragment.TAG)

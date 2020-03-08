@@ -49,6 +49,10 @@ class MainForecastFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
+        App.getApp(requireActivity()).forecastRepository.forecast.observe(viewLifecycleOwner) {
+            // TODO show loading and etc.
+        }
     }
 
     private fun setTodayForecastInfo(forecast: HourlyForecast) {
