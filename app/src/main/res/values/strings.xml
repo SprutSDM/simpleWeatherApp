@@ -3,4 +3,7 @@
     <string name="header_today">Today, now</string>
     <string name="header_next_days">Two-week forecast</string>
     <string name="predefine_city_name">Saint Petersburg</string>
+    <string name="error_common_title">При получении данных произошла ошибка</string>
+    <string name="error_common_description">Проверьте подключение к сети и попробуйте еще раз</string>
+    <string name="reload_but">Обновить</string>
 </resources>

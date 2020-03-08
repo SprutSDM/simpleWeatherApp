@@ -55,6 +55,18 @@ class MainForecastFragment : Fragment() {
         }
     }
 
+    private fun showLoading() {
+
+    }
+
+    private fun showLoaded() {
+
+    }
+
+    private fun showError() {
+
+    }
+
     private fun setTodayForecastInfo(forecast: HourlyForecast) {
         todayTemp.text = formatTemp(forecast.temp.temp, forecast.temp.unit.alias)
         todayTempFeel.text = formatTemp(forecast.realFeelTemp.temp, forecast.realFeelTemp.unit.alias)
