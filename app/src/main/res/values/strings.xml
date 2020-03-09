@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Weather App</string>
     <string name="header_today">Today, now</string>
-    <string name="header_next_days">Two-week forecast</string>
+    <string name="header_next_days">Five-days forecast</string>
     <string name="predefine_city_name">Saint Petersburg</string>
+    <string name="predefine_county_name">Russia</string>
     <string name="error_common_title">An error occurred while getting data</string>
     <string name="error_common_description">Check your network connection and try again</string>
     <string name="real_feel_temp_html"><![CDATA[Real feel: <font color=#828282>%1$s</font>]]></string>
@@ -12,4 +13,8 @@
     <string name="sdf_date">d MMM</string>
     <string name="error_while_getting_data">Error while getting data</string>
     <string name="choose_city_title">Choose city</string>
+    <string name="empty_query">Query must not be empty!</string>
+    <string name="city_item_title_args">%1$s, %2$s</string>
+
+    <string name="predefine_city_id">295212</string>
 </resources>

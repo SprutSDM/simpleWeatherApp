@@ -14,6 +14,7 @@ import ru.zakoulov.weatherapp.data.models.City
 import ru.zakoulov.weatherapp.data.source.ForecastDataSource
 import ru.zakoulov.weatherapp.data.source.accuweather.AwForecastDataSource
 import ru.zakoulov.weatherapp.data.source.accuweather.api.AwForecastApi
+import ru.zakoulov.weatherapp.data.source.accuweather.mappers.AwCityMapper
 import ru.zakoulov.weatherapp.data.source.accuweather.mappers.AwFiveDayForecastMapper
 import ru.zakoulov.weatherapp.data.source.accuweather.mappers.AwHourlyForecastMapper
 
@@ -34,13 +35,15 @@ class App : Application() {
         val awForecastDataSource: ForecastDataSource = AwForecastDataSource(
             api = awApi,
             hourlyForecastMapper = AwHourlyForecastMapper(),
-            fiveDayForecastMapper = AwFiveDayForecastMapper()
+            fiveDayForecastMapper = AwFiveDayForecastMapper(),
+            cityMapper = AwCityMapper()
         )
 
         // Resources allows to predefine city for each localized region
         val predefineCity = City(
-            id = resources.getInteger(R.integer.predefine_city_id),
-            name = getString(R.string.predefine_city_name)
+            id = getString(R.string.predefine_city_id),
+            name = getString(R.string.predefine_city_name),
+            countryName = getString(R.string.predefine_county_name)
         )
 
         forecastRepository = ForecastRepository(awForecastDataSource, scope, predefineCity)
@@ -67,7 +70,7 @@ class App : Application() {
 
         val retrofit = Retrofit.Builder()
             .client(client)
-            .baseUrl("https://dataservice.accuweather.com/forecasts/v1/")
+            .baseUrl("https://dataservice.accuweather.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

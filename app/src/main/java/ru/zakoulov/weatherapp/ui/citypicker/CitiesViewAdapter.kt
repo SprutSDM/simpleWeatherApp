@@ -17,7 +17,7 @@ class CitiesViewAdapter(
 
     var cities: List<City> = cities
         set(value) {
-            field = value
+            field = listOf(selectedCity) + value.filter { it.id != selectedCity.id }
             notifyDataSetChanged()
         }
 
@@ -32,7 +32,7 @@ class CitiesViewAdapter(
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
         val city = cities[position]
         holder.apply {
-            setName(city.name)
+            setName(holder.cityItem.resources.getString(R.string.city_item_title_args, city.name, city.countryName))
             setSelected(city.id == selectedCity.id)
         }
         holder.cityItem.setOnClickListener {

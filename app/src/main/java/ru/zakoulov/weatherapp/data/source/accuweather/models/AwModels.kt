@@ -25,3 +25,13 @@ data class AwTemperature(
 data class AwDayInfo(
     @SerializedName("Icon") val icon: Int
 )
+
+data class AwCity(
+    @SerializedName("Key") val id: String,
+    @SerializedName("LocalizedName") val name: String,
+    @SerializedName("Country") val country: AwCountryInfo
+)
+
+data class AwCountryInfo(
+    @SerializedName("LocalizedName") val name: String
+)

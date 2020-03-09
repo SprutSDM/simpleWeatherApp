@@ -2,13 +2,15 @@ package ru.zakoulov.weatherapp.ui.citypicker
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -17,12 +19,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.zakoulov.weatherapp.App
 import ru.zakoulov.weatherapp.R
 import ru.zakoulov.weatherapp.data.ForecastRepository
+import ru.zakoulov.weatherapp.data.core.DataResult
 import ru.zakoulov.weatherapp.data.models.City
 
 class CityPickerFragment : BottomSheetDialogFragment(), CityPickerCallback {
 
     private lateinit var butCloseCityPicker: View
-    private lateinit var butSearch: Button
+    private lateinit var butSearch: View
     private lateinit var cityEditText: EditText
     private lateinit var recyclerView: RecyclerView
 
@@ -35,10 +38,12 @@ class CityPickerFragment : BottomSheetDialogFragment(), CityPickerCallback {
     override fun getTheme() = R.style.AppTheme_BottomSheetDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return inflater.inflate(R.layout.fragment_city_picker, container, false).apply {
             recyclerView = findViewById(R.id.recycler_view)
             butSearch = findViewById(R.id.but_search)
             cityEditText = findViewById(R.id.city_edit_text)
+            cityEditText.requestFocus()
             butCloseCityPicker = findViewById(R.id.close_city_picker)
         }
     }
@@ -54,20 +59,28 @@ class CityPickerFragment : BottomSheetDialogFragment(), CityPickerCallback {
             adapter = viewAdapter
         }
 
-        cityEditText.setOnKeyListener { v, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                forecastRepository.searchCities(cityEditText.editableText.toString())
-                true
+        forecastRepository.cities.observe(viewLifecycleOwner) {
+            when (it) {
+                is DataResult.Success -> viewAdapter.cities = it.data
+                is DataResult.Fail -> Unit
+                is DataResult.Loading -> Unit
+            }
+        }
+
+        cityEditText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                searchCities()
             } else {
                 false
             }
         }
-
+        butSearch.setOnClickListener {
+            searchCities()
+        }
         butCloseCityPicker.setOnClickListener {
             dismiss()
         }
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -84,4 +97,13 @@ class CityPickerFragment : BottomSheetDialogFragment(), CityPickerCallback {
         dismiss()
     }
 
+    private fun searchCities(): Boolean {
+        val query = cityEditText.editableText.toString()
+        if (query.isEmpty()) {
+            Toast.makeText(requireContext(), R.string.empty_query, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        forecastRepository.searchCities(query)
+        return true
+    }
 }

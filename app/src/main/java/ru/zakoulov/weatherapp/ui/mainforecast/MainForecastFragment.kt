@@ -11,16 +11,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.weatherapp.App
 import ru.zakoulov.weatherapp.R
+import ru.zakoulov.weatherapp.data.ForecastRepository
 import ru.zakoulov.weatherapp.data.core.DataResult
 import ru.zakoulov.weatherapp.data.models.DailyForecast
 import ru.zakoulov.weatherapp.data.models.Forecast
 import ru.zakoulov.weatherapp.data.models.HourlyForecast
+import ru.zakoulov.weatherapp.ui.citypicker.CityPickerFragment
 import ru.zakoulov.weatherapp.utils.formatTemp
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -31,6 +34,7 @@ class MainForecastFragment : Fragment(), ForecastAdapterCallback {
     private lateinit var errorContainer: View
     private lateinit var loadingContainer: View
     private lateinit var butReload: Button
+    private lateinit var toolbar: Toolbar
 
     private lateinit var todayTemp: TextView
     private lateinit var todayTempFeel: TextView
@@ -42,6 +46,7 @@ class MainForecastFragment : Fragment(), ForecastAdapterCallback {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: DailyForecastViewAdapter
 
+    private lateinit var forecastRepository: ForecastRepository
     private lateinit var errorWhileGettingData: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,6 +54,7 @@ class MainForecastFragment : Fragment(), ForecastAdapterCallback {
             forecastContainer = findViewById(R.id.forecast_container)
             errorContainer = findViewById(R.id.error_containter)
             loadingContainer = findViewById(R.id.loading_container)
+            toolbar = findViewById(R.id.toolbar)
 
             forecastContainer.apply {
                 todayTemp = findViewById(R.id.today_temp)
@@ -78,12 +84,22 @@ class MainForecastFragment : Fragment(), ForecastAdapterCallback {
         }
 
         errorWhileGettingData = getString(R.string.error_while_getting_data)
-        App.getApp(requireActivity()).forecastRepository.forecast.observe(viewLifecycleOwner) {
+        forecastRepository = App.getApp(requireActivity()).forecastRepository
+        forecastRepository.forecast.observe(viewLifecycleOwner) {
             when (it) {
                 is DataResult.Loading -> showLoading()
                 is DataResult.Fail -> showError(it.exception.message ?: errorWhileGettingData)
                 is DataResult.Success -> showLoaded(it.data)
             }
+        }
+
+        forecastRepository.currentCity.observe(viewLifecycleOwner) {
+            toolbar.title = forecastRepository.currentCity.value!!.name
+        }
+
+        toolbar.setOnClickListener {
+            val cityPicker = CityPickerFragment()
+            cityPicker.show(requireActivity().supportFragmentManager, cityPicker.tag)
         }
     }
 

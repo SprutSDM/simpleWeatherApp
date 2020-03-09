@@ -65,7 +65,7 @@ class ForecastRepository(
         cities.value = DataResult.Loading()
 
         coroutineScope.launch {
-            // TODO
+            cities.postValue(remoteDataSource.searchCities(query))
         }
     }
 

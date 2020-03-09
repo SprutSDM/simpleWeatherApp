@@ -1,5 +1,5 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -35,9 +35,8 @@
     </style>
 
     <style name="AppTheme.BottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:theme">@style/AppTheme</item>
         <item name="bottomSheetStyle">@style/AppTheme.BottomSheet</item>
-        <item name="buttonStyle">@style/AppTheme.Button</item>
-        <item name="editTextStyle">@style/AppTheme.EditText</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
