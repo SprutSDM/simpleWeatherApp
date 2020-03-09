@@ -22,18 +22,34 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
+    signingConfigs {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("keystore.properties").newDataInputStream())
+
+        release {
+            keyAlias properties.getProperty("keyAlias", "")
+            keyPassword properties.getProperty("keyPassword", "")
+            storeFile file(properties.getProperty("storeFile", ""))
+            storePassword properties.getProperty("storePassword", "")
+        }
+    }
+
     buildTypes {
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
         def apiAccuweatherKey = properties.getProperty("api.accuweather.key", "")
 
         debug {
+            applicationIdSuffix ".dev"
+
             resValue 'string', 'api_accuweather_key', apiAccuweatherKey
         }
 
         release {
+            signingConfig signingConfigs.release
             resValue 'string', 'api_accuweather_key', apiAccuweatherKey
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
